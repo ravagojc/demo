@@ -24,9 +24,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        return $this->user
-            ->products()
-            ->get();
+        return Product::get();
     }
 
     /**
