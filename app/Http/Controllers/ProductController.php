@@ -153,46 +153,4 @@ class ProductController extends Controller
         ], Response::HTTP_OK);
     }
 
-    /**
-     * User makes and order and deducts to remaining quantity
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function order(Request $request)
-    {
-        
-        $data = $request->only('id', 'quantity');
-
-        //Validate data
-        $validator = Validator::make($data, [
-            'id' => 'required|int',
-            'quantity' => 'required'
-        ]);
-
-        //Send failed response if request is not valid
-        if ($validator->fails()) {
-            return response()->json(['error' => $validator->messages()], 200);
-        }
-        $product = Product::find($request->id);
-
-        if($product->quantity>=$request->quantity){
-            //Request is valid, update product
-            $product = $product->update([
-                'quantity' => $product->quantity-$request->quantity
-            ]);
-
-            return response()->json([
-                'success' => true,
-                'message' => 'You have succuessfully ordered this product'
-            ], Response::HTTP_OK);
-        }else{
-            return response()->json([
-                'success' => false,
-                'message' => 'Unsuccessful order due to insufficient stock of the product.'
-            ], Response::HTTP_OK);
-        }
-        
-    }
-
 }

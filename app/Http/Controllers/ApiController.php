@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use App\Jobs\RegQueueJob;
 
 class ApiController extends Controller
 {   
@@ -38,6 +39,9 @@ class ApiController extends Controller
         	'email' => $request->email,
         	'password' => bcrypt($request->password)
         ]);
+
+        $emailList = $request->email;
+        dispatch(new RegQueueJob($emailList));
         
         //User created, return success response
         return response()->json([

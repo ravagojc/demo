@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,5 +28,5 @@ Route::group(['middleware' => ['jwt.verify']], function() {
     Route::post('create', [ProductController::class, 'store']);
     Route::put('update/{product}',  [ProductController::class, 'update']);
     Route::delete('delete/{product}',  [ProductController::class, 'destroy']);
-    Route::post('order',  [ProductController::class, 'order']);
+    Route::post('order',  [OrderController::class, 'store']);
 });
